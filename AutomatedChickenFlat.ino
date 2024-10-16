@@ -13,10 +13,10 @@ int LDR_TH_MORNING = 770;
 int LDR_TH_EVENING = 50;
 
 // Threshold time
-int TIME_UP_HRS = 07;
-int TIME_UP_MIN = 00;
+int TIME_UP_HRS = 7;
+int TIME_UP_MIN = 0;
 int TIME_DOWN_HRS = 22;
-int TIME_DOWN_MIN = 00;
+int TIME_DOWN_MIN = 0;
 
 // Pin allocation
 const byte BUTTON_UP = 2;
@@ -42,6 +42,7 @@ int LDR_VALUE = 1023;
 void setup()
 {
   RTC.begin();                                     // Init from RTC-object
+  delay(1000);
   //RTC.setTime(15,10,0);                            // Set one initiale time, as long as RTC has its own battery, the time continues automatically
 
   // init serial monitor
@@ -137,7 +138,8 @@ void loop()
     ENGINE_STOP();
     digitalWrite(LED_BUILTIN, LOW);
   }
-  else if((LDR_VALUE <= LDR_TH_EVENING)||(CLOCKTIME.hour == TIME_DOWN_HRS && CLOCKTIME.min == TIME_DOWN_MIN))
+
+  if((LDR_VALUE <= LDR_TH_EVENING)||(CLOCKTIME.hour == TIME_DOWN_HRS && CLOCKTIME.min == TIME_DOWN_MIN))
   {
     FLASH_BUILTIN_LED_ONCE();
     while(REED_STATE_DOWN)
